@@ -1,0 +1,31 @@
+server:
+  port: 8081
+    
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/mp_db
+    username: root
+    password: sa123
+    driverClassName: com.mysql.jdbc.Driver
+    logSlowSql: true
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+jwt:
+  header: Authorization
+  tokenHead: Bearer 
+  secret: ttae
+  # 30min
+  expiration: 1800000
+
+swagger:
+  title: Ttae API
+  description: Ttae Api Documentation
+  version: 1.0.0
+  termsOfServiceUrl: http://blog.liyiqi.me
+  contact:
+    name: YQ
+    url: http://blog.liyiqi.me
+    email: 373905962@qq.com
