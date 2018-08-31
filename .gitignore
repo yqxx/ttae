@@ -1,0 +1,15 @@
+ttae-mp-restful/.classpath
+ttae-mp-restful/.project
+ttae-mp-restful/mvn.bat
+
+ttae-weixin-security/.classpath
+ttae-weixin-security/.project
+ttae-weixin-security/mvn.bat
+
+ttae-weixin-service/.classpath
+ttae-weixin-service/.project
+ttae-weixin-service/mvn.bat
+
+ttae-mp-restful/target/
+ttae-weixin-security/target/
+ttae-weixin-service/target/
