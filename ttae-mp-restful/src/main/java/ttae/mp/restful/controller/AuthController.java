@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import ttae.weixin.bean.TtaeUser;
 import ttae.weixin.http.ResponseEntity;
 import ttae.weixin.security.jwt.JwtAuthenticationRequest;
@@ -29,16 +30,18 @@ import ttae.weixin.security.jwt.JwtTokenUtil;
 import ttae.weixin.security.model.Principal;
 import ttae.weixin.security.service.AuthService;
 
+@Slf4j
 @RestController
 @RequestMapping("/auth")
+@Api(tags="凭证接口")
 public class AuthController {
 
 	@Autowired AuthService authService;
 	@Autowired private JwtTokenUtil jwtTokenUtil;
 	@Autowired private UserDetailsService userDetailsService;
-	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
 	@PostMapping("/login")
+	@ApiOperation(value = "获取接口调用凭证")
 	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
 		try {
 			final JwtAuthenticationResponse response = authService.login(authenticationRequest.getUsername(), authenticationRequest.getPassword());
@@ -50,7 +53,7 @@ public class AuthController {
 	}
 	
 	@GetMapping("/info")
-	@ApiOperation(value = "通过token获取")
+	@ApiOperation(value = "获取凭证信息")
     public ResponseEntity<?> getUserInfo(String token) throws AuthenticationException{
 		try {
 			String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -68,7 +71,12 @@ public class AuthController {
 	
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@ApiOperation(value = "创建凭证账号")
 	public Principal register(@RequestBody Principal principal) {
 		return authService.register(principal);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(3|4);
 	}
 }

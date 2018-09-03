@@ -1,7 +1,8 @@
 package ttae.weixin.security.model;
 
-import org.springframework.security.access.SecurityConfig;
 import java.security.Permission;
+
+import org.springframework.security.access.SecurityConfig;
 
 public class PermissionConfig extends SecurityConfig{
 

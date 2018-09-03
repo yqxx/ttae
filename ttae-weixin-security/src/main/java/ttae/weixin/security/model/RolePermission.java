@@ -10,20 +10,20 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "sec_principal")
-public class Principal {
+@Table(name="sec_role_permission")
+public class RolePermission {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
+	@Column(name="id")
 	private Long id;
-
-	@Column(name = "username")
-	private String username;
-
-	@Column(name = "password")
-	private String password;
-
-	@Column(name = "nickname")
-	private String nickname;
+	
+	@Column(name="mask")
+	private int mask;
+	
+	@Column(name="role_id")
+	private Long roleId;
+	
+	@Column(name="permission_id")
+	private Long permissionId;
 }

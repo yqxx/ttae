@@ -1,4 +1,4 @@
-package ttae.mp;
+package ttae.mp.restful.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

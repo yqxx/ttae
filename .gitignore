@@ -13,3 +13,5 @@ ttae-weixin-service/mvn.bat
 ttae-mp-restful/target/
 ttae-weixin-security/target/
 ttae-weixin-service/target/
+ttae-mp-restful/src/main/resources/application.yml
+ttae-mp-restful/src/main/resources/application.yml

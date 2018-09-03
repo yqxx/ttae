@@ -22,7 +22,6 @@ import ttae.weixin.security.model.MaskPermission;
 import ttae.weixin.security.model.PermissionVo;
 import ttae.weixin.security.model.Principal;
 import ttae.weixin.security.model.Role;
-import ttae.weixin.security.model.SecurityId;
 import ttae.weixin.security.repository.PrincipalRepository;
 
 @Service
@@ -30,6 +29,7 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
 	PrincipalRepository principalRepository;
+	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
@@ -39,45 +39,35 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
 		if (user == null) {
 			throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
 		} else {
-			return JwtUserFactory.create(user, findGrantedAuthorities(user.getUsername()));
+			return JwtUserFactory.create(user, findGrantedAuthorities(user.getId()));
 		}
 	}
 	
-	protected List<GrantedAuthority> findGrantedAuthorities(String username) {
+	protected List<GrantedAuthority> findGrantedAuthorities(Long principalId) {
 		List<GrantedAuthority> gas = new ArrayList<GrantedAuthority>();
 
-		List<Role> roles = findAssignedRolesOfSid(username, SecurityId.Type.PRINCIPAL);
+		List<Role> roles = findRolesOfPrincipalId(principalId);
 		for (Role role : roles) {
-			gas.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+			gas.add(new SimpleGrantedAuthority("ROLE_" + role.getCode()));
 		}
-		gas.add(new GrantedPermissions(findPermissionsOfUser(username, roles)));
+		gas.add(new GrantedPermissions(findPermissionsOfUser(roles)));
 		return gas;
 	}
 
-	protected List<Role> findAssignedRolesOfSid(String sid, SecurityId.Type type) {
+	protected List<Role> findRolesOfPrincipalId(Long principalId) {
 		StringBuffer sb = new StringBuffer();
-		sb.append(" select r.* from sec_role_assignment ra, sec_role r, sec_sid s ");
-		sb.append(" where ra.role_id = r.id and ra.sid_id = s.id and s.sid = ? and s.type = ? ");
-
-		return jdbcTemplate.query(sb.toString(), new Object[] { sid, type },
-				new BeanPropertyRowMapper<Role>(Role.class));
+		sb.append(" SELECT r.* FROM sec_principal_role pr, sec_role r WHERE pr.principal_id=? AND pr.role_id=r.id ");
+		return jdbcTemplate.query(sb.toString(), new Object[] { principalId }, new BeanPropertyRowMapper<Role>(Role.class));
 	}
 
-	protected PermissionCollection findPermissionsOfUser(String username, List<Role> roles) {
+	protected PermissionCollection findPermissionsOfUser(List<Role> roles) {
 		List<PermissionVo> permissionVo = new ArrayList<PermissionVo>();
 		for (Role role : roles) {
 			StringBuffer sb = new StringBuffer();
-			sb.append(" select pa.mask, p.id , p.actions, p.`code`, ");
-			sb.append(" p.description, p.`name` ");
-			sb.append(" from sec_permission_assignment pa, sec_permission p, sec_sid s ");
-			sb.append(" where pa.permission_id = p.id and pa.sid_id = s.id and s.sid = ? and s.type = ? ");
-
-			List<PermissionVo> pas = jdbcTemplate.query(sb.toString(),
-					new Object[] { role.getId(), 1 },
-					new BeanPropertyRowMapper<PermissionVo>(PermissionVo.class));
+			sb.append(" SELECT rp.mask, p.`code` FROM sec_role_permission rp, sec_role r, sec_permission p WHERE rp.role_id=r.id AND rp.permission_id=p.id AND r.id=? ");
+			List<PermissionVo> pas = jdbcTemplate.query(sb.toString(), new Object[] { role.getId() }, new BeanPropertyRowMapper<PermissionVo>(PermissionVo.class));
 			permissionVo.addAll(pas);
 		}
-
 		Map<String, MaskPermission> permMap = new HashMap<String, MaskPermission>();
 		for (PermissionVo pv : permissionVo) {
 			MaskPermission p = permMap.get(pv.getCode());
