@@ -44,142 +44,42 @@ export default [
     ]
   },
   {
-    path: '',
-    name: 'doc',
+    path: '/security',
+    name: 'security',
     meta: {
-      access: ['ROLE_ADMIN'],
-      title: '文档',
-      href: 'https://lison16.github.io/iview-admin-doc/#/',
-      icon: 'ios-book'
-    }
-  },
-  {
-    path: '/join',
-    name: 'join',
-    component: Main,
-    children: [
-      {
-        path: 'join_page',
-        name: 'join_page',
-        meta: {
-          icon: '_qq',
-          title: '菜单1'
-        },
-        component: () => import('@/view/join-page.vue')
-      }
-    ]
-  },
-  {
-    path: '/components',
-    name: 'components',
-    meta: {
-      icon: 'logo-buffer',
-      title: '父菜单1'
+      icon: 'ios-finger-print',
+      title: '权限管理',
+      access: ['ROLE_ADMIN']
     },
     component: Main,
     children: [
       {
-        path: 'count_to_page',
-        name: 'count_to_page',
+        path: 'permission_list',
+        name: 'permission_list',
         meta: {
-          icon: 'md-trending-up',
-          title: '菜单2'
+          title: '权限配置',
+          access: ['ROLE_ADMIN']
         },
-        component: () => import('@/view/components/count-to/count-to.vue')
+        component: () => import('@/view/security/permission_list.vue')
       },
       {
-        path: 'tables_page',
-        name: 'tables_page',
+        path: 'role_list',
+        name: 'role_list',
         meta: {
-          icon: 'md-grid',
-          title: '菜单3'
+          title: '角色配置',
+          access: ['ROLE_ADMIN']
         },
-        component: () => import('@/view/components/tables/tables.vue')
+        component: () => import('@/view/security/role_list.vue')
       },
       {
-        path: 'split_pane_page',
-        name: 'split_pane_page',
+        path: 'principal_list',
+        name: 'principal_list',
         meta: {
-          icon: 'md-pause',
-          title: '菜单4'
+          title: '用户配置',
+          access: ['ROLE_ADMIN']
         },
-        component: () => import('@/view/components/split-pane/split-pane.vue')
+        component: () => import('@/view/security/principal_list.vue')
       },
-      {
-        path: 'markdown_page',
-        name: 'markdown_page',
-        meta: {
-          icon: 'logo-markdown',
-          title: '菜单5'
-        },
-        component: () => import('@/view/components/markdown/markdown.vue')
-      },
-      {
-        path: 'editor_page',
-        name: 'editor_page',
-        meta: {
-          icon: 'ios-create',
-          title: '菜单6'
-        },
-        component: () => import('@/view/components/editor/editor.vue')
-      },
-      {
-        path: 'icons_page',
-        name: 'icons_page',
-        meta: {
-          icon: '_bear',
-          title: '菜单7'
-        },
-        component: () => import('@/view/components/icons/icons.vue')
-      }
-    ]
-  },
-  {
-    path: '/update',
-    name: 'update',
-    meta: {
-      icon: 'md-cloud-upload',
-      title: '父菜单2'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'update_table_page',
-        name: 'update_table_page',
-        meta: {
-          icon: 'ios-document',
-          title: '菜单8'
-        },
-        component: () => import('@/view/update/update-table.vue')
-      },
-      {
-        path: 'update_paste_page',
-        name: 'update_paste_page',
-        meta: {
-          icon: 'md-clipboard',
-          title: '菜单9'
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }
-    ]
-  },
-  {
-    path: '/directive',
-    name: 'directive',
-    meta: {
-      hide: true
-    },
-    component: Main,
-    children: [
-      {
-        path: 'directive_page',
-        name: 'directive_page',
-        meta: {
-          icon: 'ios-navigate',
-          title: '菜单10'
-        },
-        component: () => import('@/view/directive/directive.vue')
-      }
     ]
   },
   {

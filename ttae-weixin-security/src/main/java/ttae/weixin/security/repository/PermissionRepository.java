@@ -6,4 +6,5 @@ import ttae.weixin.security.model.Permission;
 
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
 
+	public Permission getPermissionByCode(String code);
 }

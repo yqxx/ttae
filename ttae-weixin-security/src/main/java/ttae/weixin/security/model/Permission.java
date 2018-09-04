@@ -21,7 +21,7 @@ public class Permission {
 	@Column(name="actions")
 	private String actions;
 	
-	@Column(name="code")
+	@Column(name = "code")
 	private String code;
 	
 	@Column(name="name")
